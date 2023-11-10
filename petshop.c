@@ -6,6 +6,7 @@ char op;
 char ncliente[10][100], npet[10][100], tel[10][100], agendamentos[10][100], consultas[10][100];
 int total_clientes = 0, total_agend = 0, total_consult = 0;
 char mededata[100]; 
+char spa[100];
 
 void nomepet();
 void menu();
@@ -20,8 +21,10 @@ void nomepet() {
 }
 
 void menu() {
+    nomepet();
     printf("Digite a opção desejada: \n\n 1- Cadastrar cliente \n 2- Agendar banho ou tosa \n 3- Consultas \n 4- Imprimir relatório geral \n 5- Sair\n");
     scanf(" %c", &op);
+    system("cls");
 
     switch(op) {
         case '1':
@@ -83,8 +86,23 @@ void banhoOUtosa() {
         if (pet >= 1 && pet <= 10 && strlen(agendamentos[pet-1]) == 0) {
             printf("Pet: %s\n", npet[pet-1]);
 
-            printf("O que deseja marcar?:\n\n 1- Banho\n 2- Tosa\n 3- Banho e tosa\n");
-            scanf("%d", &opb);
+            int op_banho;
+            printf("Escolha o que deseja agendar:\n 1- Banho \n 2- Tosa \n 3-Banho e tosa\n");
+            scanf("%d", &op_banho);
+
+            switch (op_banho) {
+                case 1:
+                    strcpy(spa, "Banho\n");
+                    break;
+                case 2:
+                    strcpy(spa, "Tosa\n");
+                    break;
+                case 3:
+                     strcpy(spa, "Banho++tosa\n");
+                     break; 
+                default:
+                    printf("Opção incorreta. Tente novamente.\n");
+            }
 
             total_agend++;
             printf("Agendamento feito!\n");
@@ -149,12 +167,12 @@ void relatorio() {
     
     printf("Agendamentos cadastrados:\n");
     for (int i = 0; i < total_agend; i++) {
-        printf("Pet: %s\n", npet[i]);
+        printf("Pet: %s\n Agendado: %s\n", npet[i], spa);
     }
     printf("===========================\n");
     printf("Consultas cadastradas:\n");
     for (int i = 0; i < total_consult; i++) {
-        printf("Cliente: %s, Data e médico: %s\n", ncliente[i], mededata);
+        printf("Cliente: %s Telefone: %s\n Consulta marcada: %s\n", ncliente[i], tel[i], mededata);
     }
     system("pause");
     system("cls");
@@ -162,7 +180,7 @@ void relatorio() {
 }
 
 void sair() {
-    printf("PetsuperLara-bcc\n\n\n\n");
+    printf("Volte sempre ao PetsuperLara-bcc\n\n\n\n");
     system("pause");
     system("cls");
 }
@@ -180,6 +198,8 @@ int main() {
 
         if (strcmp(senhaDigitada, senhaCorreta) == 0) {
             printf("Bem-vindo ao sistema.\n\n");
+            system("pause");
+            system("cls");
             menu();
         } else {
             nomepet();
